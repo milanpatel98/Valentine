@@ -364,25 +364,35 @@
     const shareBtn = document.getElementById("shareBtn");
 
     // IMPOSSIBLE NO + gradual YES growth (10 tries)
-    const card = document.querySelector(".card");
-    let yesScale = 1;
-    let attempts = 0;
-    const MAX_TRIES = 10;
+    // NO IMPOSIBLE (sin crecer el botón SÍ) — funciona en celular y compu
+const card = document.querySelector(".card");
 
-    function teleportNo(){
-      attempts++;
+function teleportNo(e){
+  if(e) e.preventDefault();
 
-      const rect = card.getBoundingClientRect();
-      const padding = 20;
-      const maxX = rect.width - noBtn.offsetWidth - padding;
-      const maxY = rect.height - noBtn.offsetHeight - padding;
+  const rect = card.getBoundingClientRect();
+  const padding = 10;
 
-      const x = Math.random() * Math.max(0, maxX);
-      const y = Math.random() * Math.max(0, maxY);
+  const maxX = rect.width - noBtn.offsetWidth - padding;
+  const maxY = rect.height - noBtn.offsetHeight - padding;
 
-      noBtn.style.position = "absolute";
-      noBtn.style.left = x + "px";
-      noBtn.style.top  = y + "px";
+  const x = Math.random() * Math.max(0, maxX);
+  const y = Math.random() * Math.max(0, maxY);
+
+  // Ensure it can move freely inside the card
+  card.style.position = "relative";
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
+}
+
+/* Desktop hover */
+noBtn.addEventListener("mouseenter", teleportNo);
+
+/* Mobile tap — escape every time */
+noBtn.addEventListener("touchstart", teleportNo, {passive:false});
+noBtn.addEventListener("touchend", teleportNo, {passive:false});
+noBtn.addEventListener("click", teleportNo);
 
       // gradual growth across 10 tries (total about +120%)
       const growthStep = 1.2 / MAX_TRIES;
