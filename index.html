@@ -1,122 +1,413 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>San Valentín</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>San Valentín</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Pacifico&display=swap" rel="stylesheet">
+  <!-- Fonts similar to screenshots -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<style>
-body{
-  margin:0;
-  font-family:"Patrick Hand",cursive;
-  background:linear-gradient(#f7b7d2,#ffd1dc);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
+  <style>
+    :root{
+      --pinkTop:#f9d7de;
+      --pinkMid:#f7cfd7;
+      --paper:#fff4f7;
+      --text:#5f5f5f;
+      --accent:#a84a4a;
 
-.card{
-  background:#f5c6d3;
-  width:90%;
-  max-width:420px;
-  border-radius:25px;
-  padding:25px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
-  position:relative;
-}
+      --yes1:#ff3a52;
+      --yes2:#e3162b;
 
-h1{
-  font-family:"Pacifico";
-  color:#a34b67;
-  margin-bottom:10px;
-}
+      --shadowSoft: 0 16px 40px rgba(227,22,43,.32);
+      --shadowBtn: 0 20px 48px rgba(227,22,43,.40);
+    }
 
-.sub{
-  color:#a34b67;
-  font-size:20px;
-}
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      overflow-x:hidden;
 
-.buttons{
-  margin-top:25px;
-  position:relative;
-  height:120px;
-}
+      /* background like screenshots: soft pink top + lighter center */
+      background:
+        radial-gradient(900px 520px at 12% 12%, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(900px 520px at 90% 12%, rgba(255,255,255,.45), transparent 60%),
+        linear-gradient(180deg, var(--pinkTop) 0%, var(--pinkMid) 24%, var(--paper) 56%, #fff 100%);
+    }
 
-button{
-  border:none;
-  padding:15px 25px;
-  border-radius:40px;
-  font-size:20px;
-  cursor:pointer;
-  position:absolute;
-}
+    /* Full-screen sections like your screenshots */
+    .section{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding: 68px 18px 60px;
+      position:relative;
+    }
 
-#yesBtn{
-  background:#f49bb5;
-  left:15%;
-  bottom:20px;
-}
+    .wrap{
+      width:min(760px, 92vw);
+      margin:0 auto;
+    }
 
-#noBtn{
-  background:#f7d6df;
-  right:15%;
-  bottom:20px;
-}
+    /* --- Screen 1 --- */
+    .titleScript{
+      font-family:"Great Vibes", cursive;
+      color:var(--accent);
+      font-size: clamp(52px, 7.6vw, 86px);
+      line-height:1.05;
+      margin: 0 0 14px;
+    }
 
-.note{
-  margin-top:80px;
-  color:#a34b67;
-}
-</style>
+    .bodyText{
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: clamp(15px, 2.8vw, 20px);
+      line-height:1.65;
+      color:#6a6a6a;
+      padding: 0 12px;
+    }
+
+    /* --- Screen 2 --- */
+    .arrow{
+      position:absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      display:grid;
+      place-items:center;
+      color: var(--accent);
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      cursor:pointer;
+      opacity: .95;
+    }
+    .arrow span{
+      font-size: 30px;
+      animation: bob 1.35s ease-in-out infinite;
+    }
+    @keyframes bob{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(7px); }
+    }
+
+    .miniLine{
+      margin: 4px 0 10px;
+      font-size: clamp(15px, 2.6vw, 20px);
+      color:#6d6d6d;
+    }
+
+    .bigQuestion{
+      font-family:"Great Vibes", cursive;
+      color:var(--accent);
+      font-size: clamp(56px, 9.2vw, 110px);
+      line-height:1.02;
+      margin: 0 0 22px;
+    }
+
+    .btnArea{
+      width: min(540px, 92vw);
+      margin: 0 auto;
+      position:relative;
+      height: 170px; /* room for No to dodge */
+      padding-top: 4px;
+    }
+
+    .yesBtn{
+      border:0;
+      border-radius: 999px;
+      padding: 20px 54px;
+      font-family:"Great Vibes", cursive;
+      font-size: clamp(36px, 6vw, 56px);
+      color: #fff;
+      background: linear-gradient(180deg, var(--yes1), var(--yes2));
+      box-shadow: var(--shadowBtn);
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+      position:relative;
+      transform: translateZ(0);
+      transition: transform .16s ease, filter .16s ease;
+    }
+    .yesBtn:active{ transform: scale(.985); filter: brightness(.985); }
+
+    /* glossy shine + stronger glow like screenshot */
+    .yesBtn::before{
+      content:"";
+      position:absolute;
+      inset: 7px 10px auto 10px;
+      height: 46%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0));
+      opacity: .55;
+      pointer-events:none;
+      filter: blur(.2px);
+    }
+    .yesBtn::after{
+      content:"";
+      position:absolute;
+      inset:-14px;
+      border-radius:999px;
+      background: radial-gradient(circle at 50% 55%, rgba(255,58,82,.42), transparent 62%);
+      z-index:-1;
+      filter: blur(8px);
+      opacity:.95;
+    }
+
+    .noBtn{
+      position:absolute;
+      left:50%;
+      top: 108px;
+      transform: translateX(-50%);
+      border:0;
+      border-radius:999px;
+      padding: 10px 24px;
+      font-size: 15px;
+      color:#6a6a6a;
+      background: rgba(200, 110, 130, .20);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      transition: left .18s ease, top .18s ease, transform .18s ease;
+    }
+
+    .footer{
+      position:absolute;
+      bottom: 18px;
+      left:50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: rgba(120,120,120,.55);
+      letter-spacing:.2px;
+    }
+
+    /* --- Screen 3 --- */
+    .finalTitle{
+      font-family:"Great Vibes", cursive;
+      color:var(--accent);
+      font-size: clamp(62px, 10vw, 120px);
+      line-height:1.02;
+      margin: 0 0 10px;
+    }
+    .finalSub{
+      margin: 0 0 16px;
+      font-size: clamp(18px, 3.2vw, 24px);
+      color:#6d6d6d;
+    }
+    .emoji{ font-size: clamp(36px, 7.4vw, 64px); }
+
+    /* Confetti overlay */
+    canvas#confetti{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      pointer-events:none;
+      display:none;
+    }
+  </style>
 </head>
 
 <body>
+  <canvas id="confetti"></canvas>
 
-<div class="card">
-  <h1>Oye Jennifer,</h1>
-  <div class="sub">¿Quieres ser mi San Valentín?</div>
+  <!-- Pantalla 1 -->
+  <section class="section" id="s1">
+    <div class="wrap">
+      <h1 class="titleScript">Hey Huitron...</h1>
+      <p class="bodyText">
+        Cada día contigo se siente como un sueño hecho realidad. Has llenado mi vida de tanto amor,
+        risas y alegría. Quise crear este rinconcito especial en internet solo para decirte cuánto
+        significas para mí. ¿Harías mi vida más feliz y serías mi San Valentín?
+      </p>
+    </div>
+  </section>
 
-  <div class="buttons">
-    <button id="yesBtn">SÍ 💗</button>
-    <button id="noBtn">NO</button>
-  </div>
+  <!-- Pantalla 2 -->
+  <section class="section" id="s2">
+    <div class="arrow" id="toS3" aria-label="Bajar">
+      <span>↓</span>
+    </div>
 
-  <div class="note">Si intenta presionar “NO”, se va a mover 😄</div>
-</div>
+    <div class="wrap">
+      <p class="miniLine">Hemos creado tantos recuerdos, pero hoy quiero crear uno más...</p>
+      <div class="bigQuestion">¿Quieres ser mi San Valentín?</div>
+
+      <div class="btnArea" id="btnArea">
+        <button class="yesBtn" id="yesBtn">¡SÍ! ❤️</button>
+        <button class="noBtn" id="noBtn">No</button>
+      </div>
+    </div>
+
+    <div class="footer">Made with ❤️ by Patel</div>
+  </section>
+
+  <!-- Pantalla 3 -->
+  <section class="section" id="s3">
+    <div class="arrow" id="toTop" aria-label="Subir">
+      <span>↑</span>
+    </div>
+
+    <div class="wrap">
+      <div class="finalTitle">¡Yay! ¡Te amo! ❤️</div>
+      <p class="finalSub">¡Feliz Día de San Valentín!</p>
+      <div class="emoji">🥰</div>
+    </div>
+
+    <div class="footer">Made with ❤️ by Patel</div>
+  </section>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const card = document.querySelector(".card");
+  // smooth scroll
+  const goTo = (id) => document.getElementById(id).scrollIntoView({behavior:"smooth"});
+  document.getElementById("toS3").addEventListener("click", () => goTo("s3"));
+  document.getElementById("toTop").addEventListener("click", () => goTo("s1"));
 
-function moveNo(e){
-  if(e){
-    e.preventDefault();
-    e.stopPropagation();
+  // No button dodge (mobile-friendly)
+  const noBtn = document.getElementById("noBtn");
+  const btnArea = document.getElementById("btnArea");
+  const yesBtn = document.getElementById("yesBtn");
+
+  let tries = 0;
+
+  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+  function initNoPosition(){
+    const area = btnArea.getBoundingClientRect();
+    const b = noBtn.getBoundingClientRect();
+    const x = (area.width - b.width)/2;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = "108px";
+    noBtn.style.transform = "translateX(0)";
+  }
+  window.addEventListener("load", initNoPosition);
+  window.addEventListener("resize", initNoPosition);
+
+  function moveNo(ev){
+    const area = btnArea.getBoundingClientRect();
+    const b = noBtn.getBoundingClientRect();
+
+    const pad = 10;
+    const minX = pad;
+    const maxX = area.width - b.width - pad;
+    const minY = 84;  // keep below YES button
+    const maxY = area.height - b.height - pad;
+
+    let x = Math.random() * (maxX - minX) + minX;
+    let y = Math.random() * (maxY - minY) + minY;
+
+    // push away from finger if we have a touch point
+    if (ev && ev.clientX != null){
+      const fx = ev.clientX - area.left;
+      const fy = ev.clientY - area.top;
+
+      const dx = (x + b.width/2) - fx;
+      const dy = (y + b.height/2) - fy;
+      const mag = Math.max(1, Math.hypot(dx, dy));
+      x = clamp(fx + (dx/mag) * 180, minX, maxX);
+      y = clamp(fy + (dy/mag) * 130, minY, maxY);
+    }
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top  = y + "px";
+    noBtn.style.transform = "translateX(0)";
+
+    // YES grows a bit each try (up to 10)
+    tries++;
+    const grow = Math.min(tries, 10);
+    yesBtn.style.transform = `scale(${1 + grow * 0.06})`;
+    if (tries >= 10) noBtn.textContent = "Ok 😂";
   }
 
-  const rect = card.getBoundingClientRect();
-  const padding = 10;
+  // dodge triggers
+  noBtn.addEventListener("mouseenter", (e) => moveNo(e));
+  noBtn.addEventListener("pointerdown", (e) => { e.preventDefault(); moveNo(e); }, {passive:false});
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    const t = e.touches && e.touches[0];
+    moveNo(t || null);
+  }, {passive:false});
 
-  const maxX = rect.width - noBtn.offsetWidth - padding;
-  const maxY = rect.height - noBtn.offsetHeight - padding;
+  // YES -> final screen + confetti
+  yesBtn.addEventListener("click", () => {
+    goTo("s3");
+    startConfetti(2200);
+  });
 
-  const x = Math.random()*maxX;
-  const y = Math.random()*maxY;
+  // Confetti (simple canvas)
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  let pieces = [];
+  let running = false;
 
-  noBtn.style.left = x+"px";
-  noBtn.style.top = y+"px";
-}
+  function resizeCanvas(){
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener("resize", resizeCanvas);
 
-// Works everywhere (phone + laptop)
-noBtn.addEventListener("pointerdown", moveNo, {passive:false});
-noBtn.addEventListener("pointerenter", moveNo);
-noBtn.addEventListener("touchstart", moveNo, {passive:false});
-noBtn.addEventListener("click", moveNo);
+  function startConfetti(ms){
+    resizeCanvas();
+    canvas.style.display = "block";
+    pieces = [];
+    const colors = ["#ff3a52","#e3162b","#ffb3c1","#ffd6e0","#c65a5a","#ffcc66","#66ccff","#8cffb0"];
+
+    for(let i=0;i<190;i++){
+      pieces.push({
+        x: Math.random()*window.innerWidth,
+        y: -30 - Math.random()*window.innerHeight*0.35,
+        w: 6 + Math.random()*10,
+        h: 6 + Math.random()*12,
+        vx: -1.6 + Math.random()*3.2,
+        vy:  2.2 + Math.random()*5.4,
+        rot: Math.random()*Math.PI,
+        vr:  -0.12 + Math.random()*0.24,
+        c: colors[(Math.random()*colors.length)|0],
+        a: 0.82 + Math.random()*0.18
+      });
+    }
+
+    running = true;
+    const start = performance.now();
+
+    function tick(now){
+      if(!running) return;
+      ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+      for(const p of pieces){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        p.vy += 0.02;
+        if(p.y > window.innerHeight + 50) p.y = -40;
+
+        ctx.save();
+        ctx.globalAlpha = p.a;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      }
+
+      if(now - start < ms){
+        requestAnimationFrame(tick);
+      } else {
+        running = false;
+        canvas.style.display = "none";
+      }
+    }
+    requestAnimationFrame(tick);
+  }
 </script>
-
 </body>
 </html>
