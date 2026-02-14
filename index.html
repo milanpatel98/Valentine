@@ -21,7 +21,6 @@
       --yes1:#ff3a52;
       --yes2:#e3162b;
 
-      --shadowSoft: 0 16px 40px rgba(227,22,43,.32);
       --shadowBtn: 0 20px 48px rgba(227,22,43,.40);
     }
 
@@ -32,15 +31,13 @@
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
       overflow-x:hidden;
-
-      /* background like screenshots: soft pink top + lighter center */
       background:
         radial-gradient(900px 520px at 12% 12%, rgba(255,255,255,.55), transparent 60%),
         radial-gradient(900px 520px at 90% 12%, rgba(255,255,255,.45), transparent 60%),
         linear-gradient(180deg, var(--pinkTop) 0%, var(--pinkMid) 24%, var(--paper) 56%, #fff 100%);
     }
 
-    /* Full-screen sections like your screenshots */
+    /* Sections */
     .section{
       min-height:100vh;
       display:flex;
@@ -51,12 +48,15 @@
       position:relative;
     }
 
+    /* Hide final screen until Sí is clicked */
+    #s3{ display:none; }
+
     .wrap{
       width:min(760px, 92vw);
       margin:0 auto;
     }
 
-    /* --- Screen 1 --- */
+    /* Screen 1 */
     .titleScript{
       font-family:"Great Vibes", cursive;
       color:var(--accent);
@@ -74,7 +74,7 @@
       padding: 0 12px;
     }
 
-    /* --- Screen 2 --- */
+    /* Screen 2 / 3 arrows */
     .arrow{
       position:absolute;
       top: 22px;
@@ -117,7 +117,7 @@
       width: min(540px, 92vw);
       margin: 0 auto;
       position:relative;
-      height: 170px; /* room for No to dodge */
+      height: 170px;
       padding-top: 4px;
     }
 
@@ -138,7 +138,7 @@
     }
     .yesBtn:active{ transform: scale(.985); filter: brightness(.985); }
 
-    /* glossy shine + stronger glow like screenshot */
+    /* glossy shine + glow */
     .yesBtn::before{
       content:"";
       position:absolute;
@@ -189,7 +189,7 @@
       letter-spacing:.2px;
     }
 
-    /* --- Screen 3 --- */
+    /* Screen 3 */
     .finalTitle{
       font-family:"Great Vibes", cursive;
       color:var(--accent);
@@ -241,7 +241,7 @@
       <div class="bigQuestion">¿Quieres ser mi San Valentín?</div>
 
       <div class="btnArea" id="btnArea">
-        <button class="yesBtn" id="yesBtn">¡SÍ! ❤️</button>
+        <button class="yesBtn" id="yesBtn">Sí ❤️</button>
         <button class="noBtn" id="noBtn">No</button>
       </div>
     </div>
@@ -249,7 +249,7 @@
     <div class="footer">Made with ❤️ by Patel</div>
   </section>
 
-  <!-- Pantalla 3 -->
+  <!-- Pantalla 3 (aparece al dar click en Sí) -->
   <section class="section" id="s3">
     <div class="arrow" id="toTop" aria-label="Subir">
       <span>↑</span>
@@ -265,10 +265,18 @@
   </section>
 
 <script>
-  // smooth scroll
-  const goTo = (id) => document.getElementById(id).scrollIntoView({behavior:"smooth"});
-  document.getElementById("toS3").addEventListener("click", () => goTo("s3"));
-  document.getElementById("toTop").addEventListener("click", () => goTo("s1"));
+  // Arrows: keep them (optional)
+  document.getElementById("toS3").addEventListener("click", () => {
+    // If you want the arrow to still work, show final screen instantly:
+    showFinal();
+  });
+  document.getElementById("toTop").addEventListener("click", () => {
+    // Go back to start (instant)
+    document.getElementById("s1").style.display = "flex";
+    document.getElementById("s2").style.display = "flex";
+    document.getElementById("s3").style.display = "none";
+    window.scrollTo({top: 0, behavior: "instant"});
+  });
 
   // No button dodge (mobile-friendly)
   const noBtn = document.getElementById("noBtn");
@@ -297,7 +305,7 @@
     const pad = 10;
     const minX = pad;
     const maxX = area.width - b.width - pad;
-    const minY = 84;  // keep below YES button
+    const minY = 84;  // keep below Sí button
     const maxY = area.height - b.height - pad;
 
     let x = Math.random() * (maxX - minX) + minX;
@@ -319,10 +327,8 @@
     noBtn.style.top  = y + "px";
     noBtn.style.transform = "translateX(0)";
 
-    // YES grows a bit each try (up to 10)
+    // No "Sí grows" anymore — only track tries for the joke text
     tries++;
-    const grow = Math.min(tries, 10);
-    yesBtn.style.transform = `scale(${1 + grow * 0.06})`;
     if (tries >= 10) noBtn.textContent = "Ok 😂";
   }
 
@@ -335,9 +341,17 @@
     moveNo(t || null);
   }, {passive:false});
 
-  // YES -> final screen + confetti
+  // Show final screen instantly (no scroll)
+  function showFinal(){
+    document.getElementById("s3").style.display = "flex";
+    document.getElementById("s1").style.display = "none";
+    document.getElementById("s2").style.display = "none";
+    window.scrollTo({top: 0, behavior: "instant"});
+  }
+
+  // Sí click -> final screen + confetti
   yesBtn.addEventListener("click", () => {
-    goTo("s3");
+    showFinal();
     startConfetti(2200);
   });
 
